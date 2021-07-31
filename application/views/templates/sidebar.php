@@ -9,9 +9,6 @@
     <div class="sidebar-brand-text mx-3">CO | App</div>
   </a>
 
-  <!-- Divider -->
-  <hr class="sidebar-divider">
-
   <!-- get menu -->
   <?php
   $role_id = $this->session->userdata('role_id');
@@ -31,7 +28,6 @@
     <div class="sidebar-heading">
       <?= $m['menu']; ?>
     </div>
-    <hr class="sidebar-divider">
 
     <!-- get sub-menu -->
     <?php
@@ -51,13 +47,13 @@
         <?php else : ?>
         <li class="nav-item">
         <?php endif; ?>
-        <a class="nav-link" href="<?= base_url($s['url']);  ?>">
+        <a class="nav-link pb-0" href="<?= base_url($s['url']);  ?>">
           <i class="<?= $s['icon']; ?>"></i>
           <span><?= $s['title']; ?></span></a>
         </li>
       <?php endforeach; ?>
       <!-- Divider -->
-      <hr class="sidebar-divider">
+      <hr class="sidebar-divider mt-3">
 
     <?php endforeach; ?>
 
