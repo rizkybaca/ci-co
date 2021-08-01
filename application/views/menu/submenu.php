@@ -40,7 +40,7 @@
               <td><?= $sm['is_active']; ?></td>
               <td>
                 <a href="<?= base_url('menu/editsubmenu/') . $sm['id']; ?>" class="badge badge-success">edit</a>
-                <a href="" class="badge badge-danger">hapus</a>
+                <a href="<?= base_url('menu/deletesubmenu/') . $sm['id']; ?>" onclick="return confirm('Are you sure?');" class="badge badge-danger">delete</a>
               </td>
             </tr>
           <?php endforeach; ?>

@@ -119,6 +119,13 @@ class Menu extends CI_Controller
     }
   }
 
+  public function deleteSubmenu($id)
+  {
+    $this->menu->deleteDataSubmenu($id);
+    $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Submenu deleted!</div>');
+    redirect('menu/submenu');
+  }
+
   public function changeactive()
   {
     $tangkap = $this->input->post('tangkap');

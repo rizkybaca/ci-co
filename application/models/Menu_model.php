@@ -58,6 +58,11 @@ class Menu_model extends CI_Model
     $this->db->update('user_sub_menu', $data);
   }
 
+  public function deleteDataSubmenu($id)
+  {
+    $this->db->delete('user_sub_menu', ['id' => $id]);
+  }
+
   public function getUserBySession()
   {
     $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();

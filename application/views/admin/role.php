@@ -29,8 +29,8 @@
               <td><?= $r['role']; ?></td>
               <td>
                 <a href="<?= base_url('admin/roleaccess/') . $r['id']; ?>" class="badge badge-warning">access</a>
-                <a href="" class="badge badge-success">edit</a>
-                <a href="" class="badge badge-danger">hapus</a>
+                <a href="<?= base_url('admin/roleedit/') . $r['id']; ?>" class="badge badge-success">edit</a>
+                <a href="<?= base_url('admin/roledelete/') . $r['id']; ?>" onclick="return confirm('Are you sure?');" class="badge badge-danger">delete</a>
               </td>
             </tr>
           <?php endforeach; ?>
@@ -56,7 +56,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action="<?= base_url('role'); ?>" method="POST">
+      <form action="<?= base_url('admin/role'); ?>" method="POST">
         <div class="modal-body">
           <div class="form-group">
             <input type="text" class="form-control" id="role" name="role" placeholder="role name..">
