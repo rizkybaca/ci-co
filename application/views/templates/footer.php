@@ -65,6 +65,32 @@
     });
 
   });
+
+  $('#check-submenu').on('click', function() {
+    const submenu = $(this).data('submenu');
+    var tangkap;
+    if ($('#check-submenu').is(":checked")) {
+      tangkap = '1';
+    } else {
+      tangkap = '0';
+    }
+
+    console.log(submenu)
+    console.log(tangkap)
+
+    $.ajax({
+      url: "<?= base_url('menu/changeactive'); ?>",
+      type: 'post',
+      data: {
+        submenu: submenu,
+        tangkap: tangkap
+      },
+      success: function() {
+        // document.location.href="<?= base_url('menu/submenu'); ?>";
+      }
+    });
+
+  });
 </script>
 
 </body>

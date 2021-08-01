@@ -7,12 +7,13 @@ class Menu extends CI_Controller
   {
     parent::__construct();
     is_logged_in();
+    $this->load->model('Menu_model', 'menu');
   }
 
   public function index()
   {
     $data['title'] = 'Menu Management';
-    $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+    $data['user'] = $this->menu->getUserBySession();
 
     $data['menu'] = $this->db->get('user_menu')->result_array();
 
@@ -34,7 +35,7 @@ class Menu extends CI_Controller
   public function submenu()
   {
     $data['title'] = 'Submenu Management';
-    $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+    $data['user'] = $this->menu->getUserBySession();
 
 
     $this->load->model('Menu_model', 'menu');
@@ -64,5 +65,75 @@ class Menu extends CI_Controller
       $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">New submenu added.</div>');
       redirect('menu/submenu');
     }
+  }
+
+  public function delete($id)
+  {
+    $this->menu->deleteMenu($id);
+    $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Menu deleted!</div>');
+    redirect('menu');
+  }
+
+  public function edit($id)
+  {
+    $data['title'] = 'Form Edit Menu Management';
+    $data['user'] = $this->menu->getUserBySession();
+    $data['menu'] = $this->menu->getMenuById($id);
+
+    $this->form_validation->set_rules('menu', 'Menu', 'required|trim');
+
+    if ($this->form_validation->run() == FALSE) {
+      $this->load->view('templates/header', $data);
+      $this->load->view('templates/sidebar', $data);
+      $this->load->view('templates/topbar', $data);
+      $this->load->view('menu/menu-edit', $data);
+      $this->load->view('templates/footer');
+    } else {
+      $this->menu->editDataMenu($id);
+      $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Menu updated!</div>');
+      redirect('menu');
+    }
+  }
+
+  public function editSubmenu($id)
+  {
+    $data['title'] = 'Form Edit Submenu Management';
+    $data['user'] = $this->menu->getUserBySession();
+    $data['submenu'] = $this->menu->getSubmenuById($id);
+    $data['menu'] = $this->menu->getAllMenu();
+
+    $this->form_validation->set_rules('title', 'Submenu Title', 'required|trim');;
+    $this->form_validation->set_rules('url', 'Submenu URL', 'required|trim');
+    $this->form_validation->set_rules('icon', 'Submenu URL', 'required|trim');
+
+    if ($this->form_validation->run() == FALSE) {
+      $this->load->view('templates/header', $data);
+      $this->load->view('templates/sidebar', $data);
+      $this->load->view('templates/topbar', $data);
+      $this->load->view('menu/submenu-edit', $data);
+      $this->load->view('templates/footer');
+    } else {
+      $this->menu->editDataSubmenu();
+      $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Submenu updated!</div>');
+      redirect('menu/submenu');
+    }
+  }
+
+  public function changeactive()
+  {
+    $tangkap = $this->input->post('tangkap');
+    $submenu = $this->input->post('submenu');
+
+    $data = [
+      'is_active' => $tangkap
+    ];
+
+    $result = $this->db->get_where('user_sub_menu', ['id' => $submenu]);
+
+    if ($result->num_rows() == 1) {
+      $this->db->where('id', $submenu);
+      $this->db->update('user_sub_menu', $data);
+    }
+    // $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Access changed!</div>');
   }
 }

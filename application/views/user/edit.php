@@ -42,7 +42,7 @@
             <div class="col-sm-9">
               <div class="custom-file">
                 <input type="file" class="custom-file-input" id="image" name="image">
-                <label class="custom-file-label" for="emage">Choose file</label>
+                <label class="custom-file-label" for="image">Choose file</label>
               </div>
             </div>
           </div>
